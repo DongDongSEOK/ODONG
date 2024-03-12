@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors - Level 1</title>
+    <style>
+        body {
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .box {
+            width: 200px;
+            height: 200px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+        #myChoiceBox {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
+        #myChoiceBox .choiceBox img {
+            width: 100px;
+            height: auto;
+            margin: 0 5px;
+        }
+        #mission {
+            margin-top: 20px;
+        }
+        #playerChoices {
+            margin-top: 20px;
+        }
+        #playerChoices img {
+            width: 100px;
+            height: auto;
+            cursor: pointer;
+            margin: 5px;
+        }
+        #resultBox {
+            width: 200px;
+            height: 50px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px auto;
+        }
+    </style>
+</head>
+<body>
+    <h2>Rock Paper Scissors - Level 1</h2>
+    <div id="gameContainer">
+        <div class="box">
+            <div id="myChoiceBox">
+                <!-- 선택한 이미지가 표시될 곳 -->
+            </div>
+        </div>
+        <div class="box">
+            <div id="opponentChoiceBox">
+                <!-- 상대방 선택한 이미지가 표시될 곳 -->
+            </div>
+        </div>
+    </div>
+    <div id="playerChoices">
+        <h3>내 선택</h3>
+        <img src="https://raw.githubusercontent.com/DongDongSEOK/ODONG/1e3087d3f2c84e144c8f67223cdc3df7a375dca2/%EC%9D%B4%EB%AF%B8%EC%A7%80/rock.png" alt="Rock" onclick="play('rock')">
+        <img src="C:\Users\ehdtj\Desktop\더인츠\게임만들기\game\이미지\paper.png" alt="Paper" onclick="play('paper')">
+        <img src="C:\Users\ehdtj\Desktop\더인츠\게임만들기\game\이미지\scissors.png" alt="Scissors" onclick="play('scissors')">
+    </div>
+
+    <!-- 음성 파일 재생을 위한 오디오 태그 -->
+    <audio id="audio">
+        <source src="" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        function play(playerChoice) {
+            // 내 선택 표시
+            var myChoiceBox = document.getElementById('myChoiceBox');
+            myChoiceBox.innerHTML = `<div class="choiceBox"><img src="C:\Users\ehdtj\Desktop\더인츠\게임만들기\game\이미지/${playerChoice}.png" alt="${playerChoice}"></div>`;
+
+            // 상대 선택
+            var opponentChoices = ['rock', 'paper', 'scissors'];
+            var opponentChoice = opponentChoices[Math.floor(Math.random() * opponentChoices.length)];
+            document.getElementById('opponentChoiceBox').innerHTML = `<div class="choiceBox"><img src="game/이미지/${opponentChoice}.png" alt="${opponentChoice}"></div>`;
+
+            // 게임 규칙 적용 및 음성 출력
+            var result;
+            if (playerChoice === 'rock' && opponentChoice === 'scissors' ||
+                playerChoice === 'paper' && opponentChoice === 'rock' ||
+                playerChoice === 'scissors' && opponentChoice === 'paper') {
+                result = 'win';
+                displayResult(result);
+                playAudio('game/음성/win.mp3');
+            } else if (playerChoice === opponentChoice) {
+                result = 'draw';
+                displayResult(result);
+                playAudio('game/음성/draw.mp3');
+            } else {
+                result = 'lose';
+                displayResult(result);
+                playAudio('game/음성/lose.mp3');
+            }
+        }
+
+        function playAudio(filename) {
+            var audio = document.getElementById('audio');
+            audio.src = filename;
+            audio.play();
+        }
+
+        function displayResult(result) {
+            var resultBox = document.getElementById('resultBox');
+            var message;
+            if (result === 'win') {
+                message = '이겼습니다!';
+            } else if (result === 'draw') {
+                message = '비겼습니다!';
+            } else {
+                message = '졌습니다!';
+            }
+            resultBox.innerText = message;
+        }
+    </script>
+</body>
+</html>
